@@ -7,5 +7,10 @@ app.listen(port, ()=>{
 });
 
 app.get('/ping', (req, res) =>{
-    res.send("Pong");
+    try{
+        res.send("Pong");
+    }
+    catch(error){
+        console.log("Error:", error)
+    }
 });
