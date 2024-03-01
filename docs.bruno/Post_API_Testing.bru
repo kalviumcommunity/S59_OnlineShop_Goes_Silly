@@ -1,0 +1,20 @@
+meta {
+  name: Post_API_Testing
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/api/add-items
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "productID" : 2,
+    "productName" : "Perfume of Dirt",
+    "category": "Beauty and Makeup",
+    "catID": 12
+  }
+}
