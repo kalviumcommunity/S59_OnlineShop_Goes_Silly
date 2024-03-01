@@ -62,7 +62,7 @@ router.patch('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const foundProduct = await product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!hat) {
+        if (!foundProduct) {
             return res.status(404).json({ error: "Product Not Found" })
         }
         res.json(foundProduct);
@@ -73,8 +73,8 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const hat = await product.findByIdAndDelete(req.params.id);
-        if (!hat) {
+        const foundProduct = await product.findByIdAndDelete(req.params.id);
+        if (!foundProduct) {
             return res.status(404).json({ error: "Product Not Found" })
         }
         res.send('Product deleted');
