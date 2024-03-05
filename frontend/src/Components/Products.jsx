@@ -7,6 +7,7 @@ const Products = () => {
         fetch("https://onlineshopgoessilly-server.onrender.com/api")
             .then(resp => resp.json())
             .then(result => setData(result))
+            .catch((err) => console.log(err))
     }
 
     useEffect(() => {
