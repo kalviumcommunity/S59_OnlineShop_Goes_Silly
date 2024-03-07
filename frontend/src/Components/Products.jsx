@@ -22,7 +22,7 @@ const Products = () => {
         < div className="py-24">
             <h1 className='uppercase font-extrabold text-8xl text-center'>OUR STORE</h1>
             <p className='text-center font-md m-5 mb-10 font-semibold'>Buy the glorius Products of our store down below:</p>
-            <div className='p-10 flex flex-wrap m-auto w-[90vw] bg-pink-700 rounded-2xl justify-center'>
+            <div className='p-10 flex flex-wrap m-auto w-[90vw] rounded-2xl justify-center'>
                 {data.map(ele => (
                     <div className='m-5 shadow-xl p-8 rounded-xl bg-white'>
                         <img src={ele.prodSrc} alt={ele.productName} className='w-64 h-56 object-contain' />
