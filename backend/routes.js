@@ -60,6 +60,22 @@ router.post('/new-item', async (req, res) => {
     }
 })
 
+router.get('/user-items/:name', async (req, res) => {
+    try {
+        const foundProduct = await userProduct.findOne({ productName: req.params.name });
+        
+        if (foundProduct) {
+            res.json(foundProduct);
+        } else {
+            res.json({ error: "Product not found" });
+        }
+    } catch (err) {
+        res.json({ error: "An error occurred" });
+    }
+});
+
+
+
 router.patch('/:id', async (req, res) => {
     try {
         const foundProduct = await product.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -95,6 +111,17 @@ router.delete('/:id', async (req, res) => {
             return res.status(404).json({ error: "Product Not Found" })
         }
         res.send('Product deleted');
+    } catch (err) {
+        res.status(500).send('Error: ' + err);
+    }
+});
+router.delete('/delete-user-items/:id', async (req, res) => {
+    try {
+        const foundProduct = await userProduct.findByIdAndDelete(req.params.id);
+        if (!foundProduct) {
+            return res.status(404).json({ error: "Product Not Found" })
+        }
+        res.json({message : 'Product deleted'});
     } catch (err) {
         res.status(500).send('Error: ' + err);
     }
