@@ -17,12 +17,12 @@ function UpdateProduct() {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             })
-            if(response.ok){
+            if (response.ok) {
                 const responseData = await response.json();
                 setResponseData(JSON.stringify(responseData, null, 2))
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     }
@@ -33,8 +33,11 @@ function UpdateProduct() {
 
     return (
         <>
-            <div className="shadow-xl w-[40vw] m-auto px-5 my-12 py-10 pb-15 rounded">
-                <input onChange={(e) => setName(e.target.value)} />
+            <div className="flex justify-center flex-col items-center shadow-xl w-[40vw] m-auto px-5 my-12 py-10 pb-15 rounded">
+                <img src="../../search-gif.gif" alt="" className=" m-auto w-32" />
+
+                <h1 className='text-center text-2xl font-bold text-pink-700'>Find My Product!</h1>
+                <input onChange={(e) => setName(e.target.value)} placeholder='Enter Product Name' className='shadow-md rounded border border-grey px-1.5 py-[5px] w-[400px] m-3' />
                 <div className="mt-[30px] mr-[52px] flex justify-end">
                     <button className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600" onClick={() => fetchData()}>Find Product</button>
                 </div>
@@ -46,7 +49,7 @@ function UpdateProduct() {
                         <h2 className='font-bold text-xl mt-5 w-64 text-left'>{data.productName}</h2>
                         <p className='text-slate-500 text-md'>{data.category}</p>
                     </div>
-                    <button className="bg-red-600 mr-3 rounded px-3 py-1.5 text-white" onClick={()=> deleteData(data._id)}>Delete</button>
+                    <button className="bg-red-600 mr-3 rounded px-3 py-1.5 text-white" onClick={() => deleteData(data._id)}>Delete</button>
 
                     <button className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600">Update</button>
                 </div>
