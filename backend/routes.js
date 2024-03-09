@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router();
 const { connectToMongoDB } = require('./db.js')
-const product = require('./schema.js')
+const product = require('./Schemas/schema.js')
+const userProduct = require('./Schemas/addProductsSchema.js')
 
 router.get('/', async (req, res) => {
     try {
@@ -27,12 +28,28 @@ router.get('/:id', async (req, res) => {
 
 });
 
+
 router.post('/add-items', async (req, res) => {
     const newProduct = new product({
         productID: req.body.productID,
         productName: req.body.productName,
         category: req.body.category,
         catId: req.body.catID,
+    })
+    try {
+        const savedProd = await newProduct.save()
+        res.json(savedProd)
+    }
+    catch (err) {
+        res.json({ error: "An Error occurred" })
+    }
+})
+
+router.post('/new-item', async (req, res) => {
+    const newProduct = new userProduct({
+        productName: req.body.productName,
+        category: req.body.category,
+        prodSrc: req.body.prodSrc
     })
     try {
         const savedProd = await newProduct.save()
