@@ -1,5 +1,5 @@
 import Products from "./Products"
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 function HomePage() {
     return (
         <>
@@ -9,6 +9,8 @@ function HomePage() {
                     <input type="text" className="shadow-md rounded-xl border border-grey px-5 py-[8px] w-[450px] mt-5" placeholder="Let us search something her funny 🐷" />
                     <button className="border border-pink-700 px-5 py-[8px] bg-pink-700 text-white mt-5 relative right-[40px] rounded-2xl shadow-md ">Search</button>
                     <button className="border border-pink-700 w-10 h-10 justify-center items-center bg-pink-700 text-white mt-5 rounded-full shadow-md "><Link to="/AddProduct">+</Link></button>
+                    <button className="border border-pink-700 w-10 h-10  flex justify-center items-center bg-pink-700 text-white mt-5 rounded-full shadow-md ml-3"><Link to="/FindProduct"><img src="../../up-chevron.png" alt="" className="w-3" /></Link></button>
+
                 </div>
 
                 <div className=" mr-12 text-center">

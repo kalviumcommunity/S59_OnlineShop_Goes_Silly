@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 function SignUp() {
   const [productName, setproductName] = useState("");
   const [prodSrc, setprodSrc] = useState("");
@@ -25,7 +25,7 @@ function SignUp() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({productName : productName, prodSrc : prodSrc, category : category})
+        body: JSON.stringify({ productName: productName, prodSrc: prodSrc, category: category })
       });
 
       if (response.ok) {
@@ -58,9 +58,10 @@ function SignUp() {
       </div>
 
       {data && (
-        <div>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
+        <div className='shadow-xl flex flex-col justify-center items-center p-5 rounded-xl border border-pink-700 bg-pink-200 absolute top-[30vh] left-[31vw] w-[500px] h-[300px]'>
+          <img src="../../success.png" alt="" />
+          <div className='mt-3 text-xl text-pink-700 font-bold'>Product Added Successfully!</div>
+          <button onClick={() => { setData(null) }} className='rounded px-3 py-1.5 text-white mt-3 bg-pink-700 rounded'>Okay!!</button></div>
       )}
     </>
   )

@@ -4,7 +4,7 @@ function NavBar() {
         <>
             <div className="flex justify-between shadow-md px-10 py-3 items-center ">
                 <ul className="flex center items-center">
-                    <li className="m-3 font-semibold cursor-pointer linkHover"><Link to={"/AddProduct"}>HOME</Link></li>
+                    <li className="m-3 font-semibold cursor-pointer linkHover"><Link to={"/"}>HOME</Link></li>
                     <li className="m-3 font-semibold cursor-pointer linkHover">STORE</li>
                     <li className="m-3 font-semibold cursor-pointer linkHover">ABOUT</li>
                 </ul>
