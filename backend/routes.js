@@ -63,7 +63,7 @@ router.post('/new-item', async (req, res) => {
 router.get('/user-items/:name', async (req, res) => {
     try {
         const foundProduct = await userProduct.findOne({ productName: req.params.name });
-        
+
         if (foundProduct) {
             res.json(foundProduct);
         } else {
@@ -74,6 +74,24 @@ router.get('/user-items/:name', async (req, res) => {
     }
 });
 
+router.put('/user-items-update/:name', async (req, res) => {
+    try {
+        const foundProduct = await userProduct.findOneAndUpdate(
+            { productName: req.params.name },
+            req.body,
+            { new: true }
+        );
+
+        if (!foundProduct) {
+            return res.status(404).json({ error: "Product Not Found" });
+        }
+
+        res.json(foundProduct);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error: ' + err });
+    }
+});
 
 
 router.patch('/:id', async (req, res) => {
@@ -121,7 +139,7 @@ router.delete('/delete-user-items/:id', async (req, res) => {
         if (!foundProduct) {
             return res.status(404).json({ error: "Product Not Found" })
         }
-        res.json({message : 'Product deleted'});
+        res.json({ message: 'Product deleted' });
     } catch (err) {
         res.status(500).send('Error: ' + err);
     }

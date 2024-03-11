@@ -3,10 +3,11 @@ import NavBar from './Components/NavBar'
 import HomePage from './Components/HomePage'
 import './App.css'
 import Footer from './Components/Footer'
-import UpdateProduct from './Components/UpdateProduct'
 import SignUp from './Components/SignUp'
 import AddProduct from './Components/AddProduct'
 import { Route, Routes } from 'react-router-dom'
+import FindProduct from './Components/FindProduct'
+import UpdateProduct from './Components/UpdateProduct'
 function App() {
 
   return (
@@ -16,8 +17,8 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/SignUp' element={<SignUp />} />
         <Route path='/AddProduct' element={<AddProduct />} />
-        <Route path='/UpdateProduct' element={<UpdateProduct />} />
-
+        <Route path='/FindProduct' element={<FindProduct />} />
+        <Route path='/UpdateProduct/:name' element={<UpdateProduct />} />
       </Routes>
       <Footer />
     </>

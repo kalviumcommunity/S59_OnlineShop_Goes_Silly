@@ -1,25 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 function UpdateProduct() {
-    const [data, setData] = useState(null);
-    const [name, setName] = useState("");
-    const [respData, setResponseData] = useState()
-    const fetchData = () => {
+    const { name } = useParams()
+    const [data, setData] = useState({})
+
+    const [prodName, changeName] = useState("")
+    const [catName, changecategory] = useState("")
+    const [prodsource, changeProdSrc] = useState("")
+
+    const [responseText, setRes] = useState("")
+
+    const fetchData = (name) => {
         fetch(`http://localhost:8080/api/user-items/${name}`)
             .then(resp => resp.json())
             .then(result => setData(result))
             .catch((err) => console.log(err));
     };
 
-    const deleteData = async (id) => {
+    const updateData = async (e) => {
+        e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8080/api/delete-user-items/${id}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
+            const response = await fetch(`http://localhost:8080/api/user-items-update/${name}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    productName: prodName || data.productName,
+                    category: catName || data.category,
+                    prodSrc: prodsource || data.prodSrc
+                })
             })
             if (response.ok) {
                 const responseData = await response.json();
-                setResponseData(JSON.stringify(responseData, null, 2))
+                setRes(JSON.stringify(responseData, null, 2))
             }
         }
         catch (err) {
@@ -28,35 +41,48 @@ function UpdateProduct() {
     }
 
     useEffect(() => {
-        console.log(data);
-    }, [data]);
+        fetchData(name)
+    }, [])
 
     return (
-        <>
-            <div className="flex justify-center flex-col items-center shadow-xl w-[40vw] m-auto px-5 my-12 py-10 pb-15 rounded">
-                <img src="../../search-gif.gif" alt="" className=" m-auto w-32" />
-
-                <h1 className='text-center text-2xl font-bold text-pink-700'>Find My Product!</h1>
-                <input onChange={(e) => setName(e.target.value)} placeholder='Enter Product Name' className='shadow-md rounded border border-grey px-1.5 py-[5px] w-[400px] m-3' />
-                <div className="mt-[30px] mr-[52px] flex justify-end">
-                    <button className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600" onClick={() => fetchData()}>Find Product</button>
-                </div>
-            </div>
-            {data &&
-                <div className='m-5 shadow-xl p-8 rounded-xl bg-white'>
-                    <img src={data.prodSrc} alt={data.productName} className='w-64 h-56 object-contain' />
-                    <div>
-                        <h2 className='font-bold text-xl mt-5 w-64 text-left'>{data.productName}</h2>
-                        <p className='text-slate-500 text-md'>{data.category}</p>
-                    </div>
-                    <button className="bg-red-600 mr-3 rounded px-3 py-1.5 text-white" onClick={() => deleteData(data._id)}>Delete</button>
-
-                    <button className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600">Update</button>
-                </div>
+        <div>
+            {data && <form 
+            onSubmit={updateData}
+            className="flex justify-center flex-col items-center shadow-xl w-[40vw] m-auto px-5 my-12 py-10 pb-15 rounded">
+                <img src={data.prodSrc} alt={data.productName} className=" m-auto w-64 mb-10 shadow-lg rounded" />
+                <input
+                    type="text"
+                    placeholder={data.productName}
+                    className='shadow-md rounded border border-grey px-1.5 py-[5px] w-[400px] m-3'
+                    onChange={(e) => {
+                        changeName(e.target.value)
+                    }}
+                />
+                <input
+                    type="text"
+                    placeholder={data.category}
+                    className='shadow-md rounded border border-grey px-1.5 py-[5px] w-[400px] m-3'
+                    onChange={(e) => {
+                        changecategory(e.target.value)
+                    }}
+                />
+                <input
+                    type="text"
+                    placeholder="Enter new URL"
+                    className='shadow-md rounded border border-grey px-1.5 py-[5px] w-[400px] m-3'
+                    onChange={(e) => {
+                        changeProdSrc(e.target.value)
+                    }}
+                />
+                <button
+                    type="submit"
+                    className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600"
+                >Commit Changes</button>
+            </form>
             }
-            {respData && <div>{respData}</div>}
-        </>
-    );
+            {responseText && <div>{responseText}</div>}
+        </div>
+    )
 }
 
-export default UpdateProduct;
+export default UpdateProduct
