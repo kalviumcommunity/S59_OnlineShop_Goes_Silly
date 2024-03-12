@@ -1,8 +1,27 @@
+const Joi = require('joi')
 const express = require('express')
 const router = express.Router();
 const { connectToMongoDB } = require('./db.js')
 const product = require('./Schemas/schema.js')
 const userProduct = require('./Schemas/addProductsSchema.js')
+
+const userSchema = Joi.object({
+    productId : Joi.number().integer(),
+    productName : Joi.string().required(),
+    category: Joi.string().required(),
+    catID : Joi.number().integer(),
+    prodSrc : Joi.string().required(),
+})
+
+const checkValidation = (input) => {
+    const {error} = userSchema.validate(input)
+    if(error){
+        return false
+    }
+    else{
+        return true
+    }
+}
 
 router.get('/', async (req, res) => {
     try {
@@ -46,6 +65,9 @@ router.post('/add-items', async (req, res) => {
 })
 
 router.post('/new-item', async (req, res) => {
+    if(!checkValidation(req.body)){
+        return res.status(400).json({"Error" : "Invalid Data input"})
+    }
     const newProduct = new userProduct({
         productName: req.body.productName,
         category: req.body.category,
