@@ -8,6 +8,7 @@ import AddProduct from './Components/AddProduct'
 import { Route, Routes } from 'react-router-dom'
 import FindProduct from './Components/FindProduct'
 import UpdateProduct from './Components/UpdateProduct'
+import Login from './Components/Login'
 function App() {
 
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/SignUp' element={<SignUp />} />
+        <Route path='/Login' element={<Login />} />
         <Route path='/AddProduct' element={<AddProduct />} />
         <Route path='/FindProduct' element={<FindProduct />} />
         <Route path='/UpdateProduct/:name' element={<UpdateProduct />} />
