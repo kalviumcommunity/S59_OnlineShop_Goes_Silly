@@ -9,7 +9,7 @@ function FindProduct() {
     const [respData, setResponseData] = useState()
 
     const fetchData = () => {
-        fetch(`http://localhost:8080/api/user-items/${name}`)
+        fetch(`https://onlinegoessilly-server.onrender.com/api/user-items/${name}`)
             .then(resp => resp.json())
             .then(result => {
                 setLoading(false)
@@ -20,7 +20,7 @@ function FindProduct() {
 
     const deleteData = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/delete-user-items/${id}`, {
+            const response = await fetch(`https://onlinegoessilly-server.onrender.com/api/delete-user-items/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             })
