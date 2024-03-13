@@ -34,7 +34,7 @@ const checkValidation = (input, schemaName) => {
 router.post('/register', async (req, res) => {
     const findUser = await user.findOne({ mail: req.body.mail })
     if (findUser) {
-        return res.status(401).json({ Error: "User already exists" })
+        return res.status(409).json({ Error: "User already exists" })
     }
     if (!checkValidation(req.body, validateRegister)) {
         return res.status(400).json({ "Error": "Data validation failed. Please add data as per the norms" })
@@ -47,25 +47,25 @@ router.post('/register', async (req, res) => {
     })
     try {
         const savedUser = await newUser.save()
-        res.json({ savedUser })
+        res.status(201).json({ savedUser })
     }
     catch (err) {
-        res.status(500).json({ error: "An Error occurred" })
+        res.status(500).json({ error: "An error occurred" })
     }
 })
 
 router.post('/login', async (req, res) => {
     const findUser = await user.findOne({ mail: req.body.mail })
     if (findUser) {
-        return res.json({ Message: "Login Successful!", Name : findUser.fname})
+        return res.json({ Message: "Login Successful!", Name: findUser.fname })
     }
-    else{
-        return res.status(404).json({Error : "Login Failed!"})
+    else {
+        return res.status(401).json({ Error: "Login Failed!" })
     }
 })
 
 router.post('/logout', async (req, res) => {
-    return res.json({ Message: "Logout successfull!"})
+    return res.json({ Message: "Logout successfull!" })
 })
 
 router.get('/', async (req, res) => {
@@ -74,7 +74,7 @@ router.get('/', async (req, res) => {
         res.json(products)
     }
     catch (err) {
-        res.json({ error: "An Error occurred" })
+        res.status(500).json({ error: "An error occurred" })
     }
 })
 
