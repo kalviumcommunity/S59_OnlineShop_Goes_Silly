@@ -66,7 +66,7 @@ router.post('/add-items', async (req, res) => {
 
 router.post('/new-item', async (req, res) => {
     if(!checkValidation(req.body)){
-        return res.status(400).json({"Error" : "Invalid Data input"})
+        return res.status(400).json({"Error" : "Data validation failed. Please add data as per the norms"})
     }
     const newProduct = new userProduct({
         productName: req.body.productName,
