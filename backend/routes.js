@@ -4,24 +4,69 @@ const router = express.Router();
 const { connectToMongoDB } = require('./db.js')
 const product = require('./Schemas/schema.js')
 const userProduct = require('./Schemas/addProductsSchema.js')
+const user = require('./Schemas/userSchema.js')
 
 const userSchema = Joi.object({
-    productId : Joi.number().integer(),
-    productName : Joi.string().required(),
+    productId: Joi.number().integer(),
+    productName: Joi.string().required(),
     category: Joi.string().required(),
-    catID : Joi.number().integer(),
-    prodSrc : Joi.string().required(),
+    catID: Joi.number().integer(),
+    prodSrc: Joi.string().required(),
 })
 
-const checkValidation = (input) => {
-    const {error} = userSchema.validate(input)
-    if(error){
+const validateRegister = Joi.object({
+    fname: Joi.string().required(),
+    lname: Joi.string(),
+    mail: Joi.string().required(),
+    password: Joi.string().required(),
+})
+
+const checkValidation = (input, schemaName) => {
+    const { error } = schemaName.validate(input)
+    if (error) {
         return false
     }
-    else{
+    else {
         return true
     }
 }
+
+router.post('/register', async (req, res) => {
+    const findUser = await user.findOne({ mail: req.body.mail })
+    if (findUser) {
+        return res.status(409).json({ Error: "User already exists" })
+    }
+    if (!checkValidation(req.body, validateRegister)) {
+        return res.status(400).json({ "Error": "Data validation failed. Please add data as per the norms" })
+    }
+    const newUser = new user({
+        fname: req.body.fname,
+        lname: req.body.lname,
+        mail: req.body.mail,
+        password: req.body.password,
+    })
+    try {
+        const savedUser = await newUser.save()
+        res.status(201).json({ savedUser })
+    }
+    catch (err) {
+        res.status(500).json({ error: "An error occurred" })
+    }
+})
+
+router.post('/login', async (req, res) => {
+    const findUser = await user.findOne({ mail: req.body.mail })
+    if (findUser) {
+        return res.json({ Message: "Login Successful!", Name: findUser.fname })
+    }
+    else {
+        return res.status(401).json({ Error: "Login Failed!" })
+    }
+})
+
+router.post('/logout', async (req, res) => {
+    return res.json({ Message: "Logout successfull!" })
+})
 
 router.get('/', async (req, res) => {
     try {
@@ -29,7 +74,7 @@ router.get('/', async (req, res) => {
         res.json(products)
     }
     catch (err) {
-        res.json({ error: "An Error occurred" })
+        res.status(500).json({ error: "An error occurred" })
     }
 })
 
@@ -65,8 +110,8 @@ router.post('/add-items', async (req, res) => {
 })
 
 router.post('/new-item', async (req, res) => {
-    if(!checkValidation(req.body)){
-        return res.status(400).json({"Error" : "Data validation failed. Please add data as per the norms"})
+    if (!checkValidation(req.body, userSchema)) {
+        return res.status(400).json({ "Error": "Data validation failed. Please add data as per the norms" })
     }
     const newProduct = new userProduct({
         productName: req.body.productName,
