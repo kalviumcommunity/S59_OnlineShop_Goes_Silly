@@ -17,9 +17,18 @@ function Login() {
             const responseText = await response.json();
             if (response.ok) {
                 console.log("Login Successful");
+                const accessToken = responseText.accessToken
+                console.log(accessToken)
                 setResp(responseText);
-                setLoggedIn(true);
-                document.cookie = `user=${responseText.Name}; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/;`;
+                if (accessToken) {
+                    setLoggedIn(true);
+                    document.cookie = `user=${responseText.Name}; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/;`;
+                    document.cookie = `accessToken=${responseText.accessToken}; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/;`;
+
+                }
+                else{
+                    console.log("Authentication failed")
+                }
             } else {
                 console.log("Login Failed");
             }
@@ -42,7 +51,8 @@ function Login() {
                 console.log("Logout Successful");
                 setResp(responseText);
                 setLoggedIn(false);
-                document.cookie = `user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
+                document.cookie = `user=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
+                document.cookie = `accessToken=; expires=Fri, 01 Jan 1970 23:59:59 GMT; path=/;`;
             } else {
                 console.log("Logout failed");
             }
