@@ -26,6 +26,9 @@ function Login() {
                     document.cookie = `accessToken=${responseText.accessToken}; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/;`;
 
                 }
+                else{
+                    console.log("Authentication failed")
+                }
             } else {
                 console.log("Login Failed");
             }
