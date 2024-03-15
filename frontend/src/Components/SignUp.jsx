@@ -16,7 +16,7 @@ function SignUp() {
 
   const registerUser = async (data) => {
     try {
-      const response = await fetch("http://localhost:8080/api/register", {
+      const response = await fetch("https://onlinegoessilly-server.onrender.com/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fname: data.fname, lname: data.lname, mail: data.mail, password: data.pass })

@@ -8,7 +8,7 @@ function Login() {
 
     const authUser = async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/api/login", {
+            const response = await fetch("https://onlinegoessilly-server.onrender.com/api/login", {
                 method: "POST",
                 headers: { 'Content-Type': "application/json" },
                 body: JSON.stringify({ mail: data.mail })
@@ -31,7 +31,7 @@ function Login() {
 
     const logout = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/logout", {
+            const response = await fetch("https://onlinegoessilly-server.onrender.com/api/logout", {
                 method: "POST",
                 headers: { 'Content-Type': "application/json" },
             });
