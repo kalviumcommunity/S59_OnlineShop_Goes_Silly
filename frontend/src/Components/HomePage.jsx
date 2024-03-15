@@ -1,6 +1,7 @@
 import Products from "./Products"
 import { Link } from 'react-router-dom'
 function HomePage() {
+
     return (
         <>
             <div>

@@ -1,70 +1,43 @@
 import { useState, useEffect } from "react"
 import { useForm } from 'react-hook-form'
+import LogoutUtil from "../utilComponents/LogoutUtil"
+import LoginUtil from "../utilComponents/LoginUtil"
+import { confirmAlert } from 'react-confirm-alert';
+import { Navigate, useNavigate } from "react-router-dom";
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
-function Login() {
+function Login({ setlog, logged }) {
     const { register, handleSubmit } = useForm()
-    const [resp, setResp] = useState(null)
-    const [loggedIn, setLoggedIn] = useState(false)
+
+    const handleLogout = () => {
+        confirmAlert({
+            title : "Confirm Logout",
+            message : "Are you sure you wish to logout?",
+            buttons : [
+                {
+                    label : "Yes",
+                    onClick : () => {
+                        logout()
+                    }
+                },
+                {
+                    label : "No", 
+                    onClick : () => {
+                        console.log("Logout cancelled")
+                    }
+                }
+            ]
+        })
+    }
 
     const authUser = async (data) => {
-        try {
-            const response = await fetch("https://onlinegoessilly-server.onrender.com/api/login", {
-                method: "POST",
-                headers: { 'Content-Type': "application/json" },
-                body: JSON.stringify({ mail: data.mail })
-            });
-
-            const responseText = await response.json();
-            if (response.ok) {
-                console.log("Login Successful");
-                const accessToken = responseText.accessToken
-                console.log(accessToken)
-                setResp(responseText);
-                if (accessToken) {
-                    setLoggedIn(true);
-                    document.cookie = `user=${responseText.Name}; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/;`;
-                    document.cookie = `accessToken=${responseText.accessToken}; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/;`;
-
-                }
-                else{
-                    console.log("Authentication failed")
-                }
-            } else {
-                console.log("Login Failed");
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        await LoginUtil(setlog, data)
+        Navigate('/HomePage')
     };
-
 
     const logout = async () => {
-        try {
-            const response = await fetch("https://onlinegoessilly-server.onrender.com/api/logout", {
-                method: "POST",
-                headers: { 'Content-Type': "application/json" },
-            });
-
-            const responseText = await response.json();
-
-            if (response.ok) {
-                console.log("Logout Successful");
-                setResp(responseText);
-                setLoggedIn(false);
-                document.cookie = `user=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
-                document.cookie = `accessToken=; expires=Fri, 01 Jan 1970 23:59:59 GMT; path=/;`;
-            } else {
-                console.log("Logout failed");
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        await LogoutUtil(setlog)
     };
-
-
-    useEffect(() => {
-        console.log(resp)
-    }, [resp])
 
     const doSubmit = async (data) => {
         try {
@@ -105,19 +78,20 @@ function Login() {
 
                     />
                 </div>
-                {!loggedIn && <div className="mt-[30px] mr-[52px] flex justify-end">
+                {!logged && <div className="mt-[30px] mr-[52px] flex justify-end">
                     <button className="bg-slate-300 rounded px-3 py-1.5 text-slate-600 mr-3 ">I want to join!</button>
                     <button type="submit" className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600">
                         Log In
                     </button>
                 </div>}
+                {logged &&
+                    <button
+                        onClick={handleLogout}
+                        className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600 ml-52 mt-3">
+                        Log Out
+                    </button>}
             </form>
-            {loggedIn && <div>{
-                <button
-                    onClick={logout}
-                    className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600">
-                    Log Out
-                </button>}</div>}
+
 
         </>
     )
