@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useForm } from 'react-hook-form'
+import { Link } from "react-router-dom"
 
 function SignUp() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
@@ -16,7 +17,7 @@ function SignUp() {
 
   const registerUser = async (data) => {
     try {
-      const response = await fetch("http://localhost:8080/api/register", {
+      const response = await fetch("https://onlinegoessilly-server.onrender.com/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fname: data.fname, lname: data.lname, mail: data.mail, password: data.pass })
@@ -98,7 +99,7 @@ function SignUp() {
             <label>I agree to the <span className="underline cursor-pointer text-pink-700">Terms and conditions</span></label></div>
         </div>
         <div className="mt-[30px] mr-[52px] flex justify-end">
-          <button className="bg-slate-300 rounded px-3 py-1.5 text-slate-600 mr-3 ">I already have an account</button>
+          <button className="bg-slate-300 rounded px-3 py-1.5 text-slate-600 mr-3 "><Link to={"/Login"}>I already have an account</Link></button>
           <button type="submit" className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600">
             Create Account
           </button>
