@@ -1,4 +1,4 @@
-import { useState, useEffect, CSSProperties } from 'react'
+import { useState, useEffect } from 'react'
 import { BounceLoader } from 'react-spinners'
 
 const Products = () => {
