@@ -20,6 +20,10 @@ const userProductsSchema = new mongoose.Schema({
     catId : {
         type: Number,
         default: Date.now()
+    },
+    userName : {
+        type : String,
+        required : true
     }
 })
 

@@ -10,7 +10,8 @@ function NavBar({setlog,logged}) {
                 <li className="m-3 font-semibold cursor-pointer linkHover">
                     <Link to={"/"}>HOME</Link>
                 </li>
-                <li className="m-3 font-semibold cursor-pointer linkHover">STORE</li>
+                <li className="m-3 font-semibold cursor-pointer linkHover">
+                <Link to={"/OpenStore"}>OPEN STORE</Link></li>
                 <li className="m-3 font-semibold cursor-pointer linkHover">ABOUT</li>
             </ul>
             <ul className="flex center items-center">

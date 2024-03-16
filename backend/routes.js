@@ -17,6 +17,7 @@ const userSchema = Joi.object({
     category: Joi.string().required(),
     catID: Joi.number().integer(),
     prodSrc: Joi.string().required(),
+    userName : Joi.string().required()
 })
 
 const validateRegister = Joi.object({
@@ -84,6 +85,28 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/user-item/', async (req, res) => {
+    try {
+        const userproducts = await userProduct.find()
+        res.json(userproducts)
+    }
+    catch (err) {
+        res.status(500).json({ error: "An error occurred" })
+    }
+});
+
+
+router.get('/users', async (req, res) => {
+    try {
+        const users = await user.find();
+        const usernames = users.map(user => user.fname)
+        res.json(usernames);
+    } catch(err) {
+        res.status(500).json({ error: "An Error occurred" });
+    }
+});
+
+
 
 router.get('/:id', async (req, res) => {
     try {
@@ -122,14 +145,15 @@ router.post('/new-item', async (req, res) => {
     const newProduct = new userProduct({
         productName: req.body.productName,
         category: req.body.category,
-        prodSrc: req.body.prodSrc
+        prodSrc: req.body.prodSrc,
+        userName: req.body.userName
     })
     try {
         const savedProd = await newProduct.save()
         res.json(savedProd)
     }
     catch (err) {
-        res.json({ error: "An Error occurred" })
+        res.json({ error: "An Error occurred in adding" })
     }
 })
 
@@ -146,6 +170,8 @@ router.get('/user-items/:name', async (req, res) => {
         res.json({ error: "An error occurred" });
     }
 });
+
+
 
 router.put('/user-items-update/:name', async (req, res) => {
     try {
