@@ -56,7 +56,7 @@ router.post('/register', async (req, res) => {
         res.status(201).json({ savedUser })
     }
     catch (err) {
-        res.status(500).json({ error: "An error occurred" })
+        res.status(500).json({ error: "Error adding the new user. Try again later" })
     }
 })
 
@@ -81,7 +81,7 @@ router.get('/', async (req, res) => {
         res.json(products)
     }
     catch (err) {
-        res.status(500).json({ error: "An error occurred" })
+        res.status(500).json({ error: "Failed to fetch products" })
     }
 })
 
@@ -91,7 +91,7 @@ router.get('/user-item/', async (req, res) => {
         res.json(userproducts)
     }
     catch (err) {
-        res.status(500).json({ error: "An error occurred" })
+        res.status(500).json({ error: "Failed fetching the store" })
     }
 });
 
@@ -102,7 +102,7 @@ router.get('/users', async (req, res) => {
         const usernames = users.map(user => user.fname)
         res.json(usernames);
     } catch(err) {
-        res.status(500).json({ error: "An Error occurred" });
+        res.status(500).json({ error: "No user found" });
     }
 });
 
@@ -115,7 +115,7 @@ router.get('/:id', async (req, res) => {
 
     }
     catch (err) {
-        res.json({ error: "An Error occurred" })
+        res.json({ error: "Product not found" })
 
     }
 
