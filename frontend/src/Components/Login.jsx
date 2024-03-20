@@ -3,13 +3,15 @@ import { useForm } from 'react-hook-form'
 import LogoutUtil from "../utilComponents/LogoutUtil"
 import LoginUtil from "../utilComponents/LoginUtil"
 import { confirmAlert } from 'react-confirm-alert';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { BounceLoader } from 'react-spinners'
+
 
 function Login({ setlog, logged }) {
     const { register, handleSubmit, reset } = useForm()
     const [logging, setLogProcess] = useState(null)
+    const navigate = useNavigate()
 
     const handleLogout = () => {
         confirmAlert({
@@ -36,6 +38,8 @@ function Login({ setlog, logged }) {
         setLogProcess(true)
         await LoginUtil(setlog, data)
         setLogProcess(false)
+        navigate('/')
+        
     };
 
     const logout = async () => {
