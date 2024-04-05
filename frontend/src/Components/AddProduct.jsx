@@ -1,18 +1,11 @@
 import { useState, useEffect } from 'react'
+import getCookie from '../utilComponents/GetUserNameUtil';
+
 function AddProduct() {
   const [productName, setproductName] = useState("");
   const [prodSrc, setprodSrc] = useState("");
   const [category, setcategory] = useState("");
   const [data, setData] = useState(null);
-  const[userName, setUser] = useState(null)
-
-  const getCookie = (cookieName) => {
-    const cookies = document.cookie
-    const cookieValue = cookies
-      .split("; ")
-      .find(row => row.startsWith(cookieName + '='))
-    return cookieValue ? cookieValue.split('=')[1] : null
-  }
 
   useEffect(() => {
     const username = getCookie("user")

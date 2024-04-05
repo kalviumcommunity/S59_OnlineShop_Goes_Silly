@@ -157,11 +157,11 @@ router.post('/new-item', async (req, res) => {
     }
 })
 
-router.get('/user-items/:name', async (req, res) => {
+router.get('/user-items/:name/:username', async (req, res) => {
     try {
         const foundProduct = await userProduct.findOne({ productName: req.params.name });
 
-        if (foundProduct) {
+        if (foundProduct  && foundProduct.userName  == req.params.username) {
             res.json(foundProduct);
         } else {
             res.json({ error: "Product not found" });
