@@ -36,6 +36,7 @@ function Login({ setlog, logged }) {
 
     const authUser = async (data) => {
         setLogProcess(true)
+        console.log(data)
         await LoginUtil(setlog, data)
         setLogProcess(false)
         navigate('/')
@@ -84,7 +85,7 @@ function Login({ setlog, logged }) {
                         type="password"
                         className="shadow-md rounded border border-grey px-1.5 py-[5px] w-[400px] m-3"
                         placeholder="Enter password"
-                        {...register("pass", {
+                        {...register("password", {
                             required: "Please enter the password",
                             minLength: {
                                 value: 10,
