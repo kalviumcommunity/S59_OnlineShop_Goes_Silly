@@ -21,10 +21,6 @@ const Products = () => {
         }, 2000)
     }, [])
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     return (
         <>
             < div className="py-24">
@@ -33,7 +29,7 @@ const Products = () => {
                 {loading && <div className='ml-[45vw] mt-[10vw]'>  <BounceLoader color='#ec1c74' size={150} /></div>}
                 <div className='p-10 flex flex-wrap m-auto w-[90vw] rounded-2xl justify-center'>
                     {data.map(ele => (
-                        <div className='m-5 shadow-xl p-8 rounded-xl bg-white'>
+                        <div className='m-5 shadow-xl p-8 rounded-xl bg-white' key = {ele._id}>
                             <img src={ele.prodSrc} alt={ele.productName} className='w-64 h-56 object-contain' />
                             <div>
                                 <h2 className='font-bold text-xl mt-5 w-64 text-left'>{ele.productName}</h2>

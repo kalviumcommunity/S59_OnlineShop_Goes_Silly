@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react'
 import getCookie from '../utilComponents/GetUserNameUtil';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-function AddProduct() {
+function AddProduct({logged}) {
   const [productName, setproductName] = useState("");
   const [prodSrc, setprodSrc] = useState("");
   const [category, setcategory] = useState("");
-  const [data, setData] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const username = getCookie("user")
-    console.log(typeof username)
   }, [])
+
+  useEffect(() => {
+    if (!logged) {
+      console.log(logged)
+      navigate('/')
+    }
+  }, [logged])
 
   const handleProduct = (event) => {
     setproductName(event.target.value);
@@ -35,10 +43,10 @@ function AddProduct() {
       });
 
       if (response.ok) {
-        const respData = await response.json();
-        setData(respData);
+        toast.success("Product Added Successfully!")
       }
     } catch (err) {
+      toast.error("Failed to Add. Try Again Later")
       console.log(err);
     }
   };
@@ -62,15 +70,6 @@ function AddProduct() {
           <button className="bg-pink-700 rounded px-3 py-1.5 text-white hover:bg-pink-600" onClick={handleSubmit}>Add Product</button>
         </div>
       </div>
-
-      {data && (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      )}
-      {// <div className='shadow-xl flex flex-col justify-center items-center p-5 rounded-xl border border-pink-700 bg-pink-200 absolute top-[30vh] left-[31vw] w-[500px] h-[300px]'>
-        //   <img src="../../success.png" alt="" />
-        //   <div className='mt-3 text-xl text-pink-700 font-bold'>Product Added Successfully!</div>
-        //   <button onClick={() => { setData(null) }} className='rounded px-3 py-1.5 text-white mt-3 bg-pink-700 rounded'>Okay!!</button></div>
-      }
     </>
   )
 }

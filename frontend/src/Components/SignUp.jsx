@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
 import { useForm } from 'react-hook-form'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 function SignUp() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const [respText, setResp] = useState(null)
+  const navigate = useNavigate()
   const onSubmit = (data) => {
     console.log(data)
     registerUser(data)
@@ -23,10 +25,15 @@ function SignUp() {
         body: JSON.stringify({ fname: data.fname, lname: data.lname, mail: data.mail, password: data.pass })
 
       })
-      const responseText = await response.json()
-      setResp(responseText)
+      if (response.ok) {
+        toast.success("Welcome to our community!")
+        const responseText = await response.json()
+        setResp(responseText)
+        navigate('/')
+      }
     }
     catch (err) {
+      toast.error("Failed Somehow!")
       console.log(err)
     }
   }

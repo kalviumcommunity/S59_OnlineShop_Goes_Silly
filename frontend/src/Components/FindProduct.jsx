@@ -2,14 +2,24 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BounceLoader } from 'react-spinners'
 import getCookie from '../utilComponents/GetUserNameUtil';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-function FindProduct() {
+
+function FindProduct({ logged }) {
     const [data, setData] = useState(null);
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(null)
-    const [respData, setResponseData] = useState()
     const username = getCookie("user")
-    
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (logged != undefined && !logged) {
+            console.log(logged)
+            navigate('/')
+        }
+    }, [logged])
+
     const fetchData = () => {
         fetch(`http://localhost:8080/api/user-items/${name}/${username}`)
             .then(resp => resp.json())
@@ -27,17 +37,22 @@ function FindProduct() {
                 headers: { 'Content-Type': 'application/json' }
             })
             if (response.ok) {
-                const responseData = await response.json();
-                setResponseData(JSON.stringify(responseData, null, 2))
+                toast.success("Product Deleted Successfully!")
             }
         }
         catch (err) {
             console.log(err)
+            toast.error("Product Deletion failed!")
         }
     }
 
     useEffect(() => {
-        console.log(data);
+        if (data && data.error) {
+            toast.error(data.error)
+        }
+        if (data && data.productName) {
+            toast.success("Product Found!")
+        }
     }, [data]);
 
     return (
@@ -70,9 +85,6 @@ function FindProduct() {
                     </button>
                 </div>
             }
-
-
-            {respData && <div>{respData}</div>}
         </>
     );
 }
