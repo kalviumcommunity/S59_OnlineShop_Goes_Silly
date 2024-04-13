@@ -1,6 +1,7 @@
 const express = require('express')
 const Joi = require('joi')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 const router = express.Router();
 const { connectToMongoDB } = require('./db.js')
 require('dotenv').config()
@@ -17,7 +18,7 @@ const userSchema = Joi.object({
     category: Joi.string().required(),
     catID: Joi.number().integer(),
     prodSrc: Joi.string().required(),
-    userName : Joi.string().required()
+    userName: Joi.string().required()
 })
 
 const validateRegister = Joi.object({
@@ -56,15 +57,22 @@ router.post('/register', async (req, res) => {
         res.status(201).json({ savedUser })
     }
     catch (err) {
+        console.log(err)
         res.status(500).json({ error: "Error adding the new user. Try again later" })
     }
 })
 
 router.post('/login', async (req, res) => {
-    const findUser = await user.findOne({ mail: req.body.mail })
+    const findUser = await user.findOne({ mail: req.body.mail})
     if (findUser) {
-        const token = jwt.sign({userId : findUser._id}, SECRET, {expiresIn : '6h'})
-        return res.json({ Message: "Login Successful!", Name: findUser.fname, accessToken : token })
+        const isMatch = await bcrypt.compare(req.body.password, findUser.password)
+        if (isMatch) {
+            const token = jwt.sign({ userId: findUser._id }, SECRET, { expiresIn: '6h' })
+            return res.json({ Message: "Login Successful!", Name: findUser.fname, accessToken: token })
+        }
+        else {
+            res.status(401).json({ Error: "Wrong Credentials!" })
+        }
     }
     else {
         return res.status(401).json({ Error: "Login Failed!" })
@@ -101,7 +109,7 @@ router.get('/users', async (req, res) => {
         const users = await user.find();
         const usernames = users.map(user => user.fname)
         res.json(usernames);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ error: "No user found" });
     }
 });
@@ -157,11 +165,11 @@ router.post('/new-item', async (req, res) => {
     }
 })
 
-router.get('/user-items/:name', async (req, res) => {
+router.get('/user-items/:name/:username', async (req, res) => {
     try {
         const foundProduct = await userProduct.findOne({ productName: req.params.name });
 
-        if (foundProduct) {
+        if (foundProduct && foundProduct.userName == req.params.username) {
             res.json(foundProduct);
         } else {
             res.json({ error: "Product not found" });

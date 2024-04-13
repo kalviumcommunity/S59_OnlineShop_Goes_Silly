@@ -3,26 +3,30 @@ import { useForm } from 'react-hook-form'
 import LogoutUtil from "../utilComponents/LogoutUtil"
 import LoginUtil from "../utilComponents/LoginUtil"
 import { confirmAlert } from 'react-confirm-alert';
-import { Navigate, useNavigate } from "react-router-dom";
-import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import { useNavigate } from "react-router-dom";
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { BounceLoader } from 'react-spinners'
+
 
 function Login({ setlog, logged }) {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, reset } = useForm()
+    const [logging, setLogProcess] = useState(null)
+    const navigate = useNavigate()
 
     const handleLogout = () => {
         confirmAlert({
-            title : "Confirm Logout",
-            message : "Are you sure you wish to logout?",
-            buttons : [
+            title: "Confirm Logout",
+            message: "Are you sure you wish to logout?",
+            buttons: [
                 {
-                    label : "Yes",
-                    onClick : () => {
+                    label: "Yes",
+                    onClick: () => {
                         logout()
                     }
                 },
                 {
-                    label : "No", 
-                    onClick : () => {
+                    label: "No",
+                    onClick: () => {
                         console.log("Logout cancelled")
                     }
                 }
@@ -31,11 +35,16 @@ function Login({ setlog, logged }) {
     }
 
     const authUser = async (data) => {
+        setLogProcess(true)
+        console.log(data)
         await LoginUtil(setlog, data)
-        Navigate('/HomePage')
+        setLogProcess(false)
+        navigate('/')
+        
     };
 
     const logout = async () => {
+        reset()
         await LogoutUtil(setlog)
     };
 
@@ -49,6 +58,14 @@ function Login({ setlog, logged }) {
 
     return (
         <>
+            {logging &&
+                <div className="fixed inset-0 bg-white bg-opacity-[0.5] flex justify-center items-center">
+                    <div>
+                        <BounceLoader color='#ec1c74' size={150} />
+                    </div>
+                </div>
+            }
+
             <form
                 className="shadow-xl w-[40vw] m-auto px-5 my-12 py-10 pb-15 rounded"
                 onSubmit={handleSubmit(doSubmit)}
@@ -68,7 +85,7 @@ function Login({ setlog, logged }) {
                         type="password"
                         className="shadow-md rounded border border-grey px-1.5 py-[5px] w-[400px] m-3"
                         placeholder="Enter password"
-                        {...register("pass", {
+                        {...register("password", {
                             required: "Please enter the password",
                             minLength: {
                                 value: 10,
