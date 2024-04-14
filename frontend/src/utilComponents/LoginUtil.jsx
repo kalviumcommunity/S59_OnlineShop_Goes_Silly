@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 
 async function LoginUtil(setlog, data, navigate) {
     try {
-        const response = await fetch("http://localhost:8080/api/login", {
+        const response = await fetch("https://onlinegoessilly-server.onrender.com/api/login", {
             method: "POST",
             headers: { 'Content-Type': "application/json" },
             body: JSON.stringify({ mail: data.mail, password: data.password })

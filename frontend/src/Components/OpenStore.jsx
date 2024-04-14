@@ -8,7 +8,7 @@ const OpenStore = () => {
     const [filter, setFilter] = useState("all")
     const [filteredData, setFilterData] = useState([])
     const fetchData = () => {
-        fetch("http://localhost:8080/api/user-item/")
+        fetch("https://onlinegoessilly-server.onrender.com/api/user-item/")
             .then(resp => resp.json())
             .then(result => {
                 setLoading(false)
@@ -19,7 +19,7 @@ const OpenStore = () => {
     }
 
     const fetchUsers = () => {
-        fetch("http://localhost:8080/api/users")
+        fetch("https://onlinegoessilly-server.onrender.com/api/users")
             .then(resp => resp.json())
             .then(result => {
                 setUsers(result)
@@ -40,22 +40,15 @@ const OpenStore = () => {
 
 
     useEffect(() => {
-        setTimeout(() => {
-            fetchData()
-            fetchUsers()
-        }, 2000)
+        fetchData()
+        fetchUsers()
     }, [])
-
-    useEffect(() => {
-        console.log(data)
-        console.log(users)
-    }, [data])
 
     return (
         <>
             < div className="py-24">
-                <h1 className='uppercase font-extrabold text-8xl text-center'>OUR STORE</h1>
-                <p className='text-center font-md m-5 mb-10 font-semibold'>Buy the glorius Products of our store down below:</p>
+                <h1 className='uppercase font-extrabold text-8xl text-center'>OUR OPEN STORE</h1>
+                <p className='text-center font-md m-5 mb-10 font-semibold'>Contribute Some Silly Products here!</p>
                 {loading && <div className='ml-[45vw] mt-[10vw]'>  <BounceLoader color='#ec1c74' size={150} /></div>}
 
                 <select className="ml-10 bg-pink-700 py-1.5 px-3 rounded text-white" onChange={(e) => setFilter(e.target.value)}>

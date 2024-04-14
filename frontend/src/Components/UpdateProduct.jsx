@@ -19,7 +19,7 @@ function UpdateProduct({logged}) {
     }, [logged])
 
     const fetchData = (name, userName) => {
-        fetch(`http://localhost:8080/api/user-items/${name}/${userName}`)
+        fetch(`https://onlinegoessilly-server.onrender.com/api/user-items/${name}/${userName}`)
             .then(resp => resp.json())
             .then(result => {
                 setData(result)
@@ -30,7 +30,7 @@ function UpdateProduct({logged}) {
     const updateData = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:8080/api/user-items-update/${name}`, {
+            const response = await fetch(`https://onlinegoessilly-server.onrender.com/api/user-items-update/${name}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

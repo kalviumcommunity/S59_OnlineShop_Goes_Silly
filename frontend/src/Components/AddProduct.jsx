@@ -34,7 +34,7 @@ function AddProduct({logged}) {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/new-item", {
+      const response = await fetch("https://onlinegoessilly-server.onrender.com/api/new-item", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
