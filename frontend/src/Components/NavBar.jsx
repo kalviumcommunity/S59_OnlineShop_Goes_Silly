@@ -35,7 +35,10 @@ function NavBar({ setlog, logged }) {
                 </li>
                 <li className="m-3 font-semibold cursor-pointer linkHover">
                     <Link to={"/OpenStore"}>OPEN STORE</Link></li>
-                <li className="m-3 font-semibold cursor-pointer linkHover">ABOUT</li>
+                <li className="m-3 font-semibold cursor-pointer linkHover">
+                    <Link to={"/About"}>ABOUT</Link></li>
+                <li className="m-3 font-semibold cursor-pointer linkHover">
+                    <Link to={"/HelpDesk"}>HELP DESK</Link></li>
             </ul>
             <ul className="flex center items-center">
                 {!logged && (
