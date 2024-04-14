@@ -9,6 +9,8 @@ import AddProduct from './Components/AddProduct'
 import { Route, Routes } from 'react-router-dom'
 import FindProduct from './Components/FindProduct'
 import UpdateProduct from './Components/UpdateProduct'
+import HelpDesk from './Components/HelpDesk'
+import About from './Components/About'
 import Login from './Components/Login'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -27,6 +29,8 @@ function App() {
         <Route path='/FindProduct' element={<FindProduct logged={logged} />} />
         <Route path='/UpdateProduct/:name' element={<UpdateProduct logged={logged} />} />
         <Route path='/OpenStore' element={<OpenStore />} />
+        <Route path='/HelpDesk' element={<HelpDesk />} />
+        <Route path='/About' element={<About />} />
       </Routes>
       <Footer />
       <ToastContainer />
